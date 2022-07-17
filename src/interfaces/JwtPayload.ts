@@ -1,5 +1,5 @@
 export default interface IJWTPayload {
-  sub: number;
+  sub: string;
   name: string;
   iat?: Date;
   exp?: Date;
