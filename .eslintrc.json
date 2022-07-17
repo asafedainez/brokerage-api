@@ -41,6 +41,12 @@
                 "destructuredArrayIgnorePattern": "^_"
             }
         ],
+        "class-methods-use-this": [
+            "error",
+            {
+                "enforceForClassFields": "false"
+            }
+        ],
         "consistent-return": 0
     }
 }
