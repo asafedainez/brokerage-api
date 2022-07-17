@@ -12,7 +12,7 @@ export default class LoginService implements IAuth {
   }
 
   public async login(email: string, password: string): Promise<string> {
-    const user = await this.database.user.findOne({
+    const user = await this.database.user.findFirst({
       where: {
         email,
         password,
