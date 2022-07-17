@@ -6,7 +6,11 @@
   "license": "MIT",
   "scripts": {
     "start": "ts-node src/index.ts",
-    "dev": "nodemon --watch 'src/' --exec 'ts-node src/server.ts' -e ts"
+    "dev": "nodemon --watch 'src/' --exec 'ts-node src/server.ts' -e ts",
+    "migrate": "yarn prisma migrate dev",
+    "generate": "yarn prisma generate",
+    "seed": "ts-node src/database/seed.ts",
+    "push": "yarn prisma db push"
   },
   "dependencies": {
     "@prisma/client": "^4.0.0",
