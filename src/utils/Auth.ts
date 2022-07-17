@@ -2,6 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import {
   Secret, sign, SignOptions, verify,
 } from 'jsonwebtoken';
+import IJWTPayload from '../interfaces/JwtPayload';
 import HttpException from './HttpException';
 
 const { JWT_SECRET } = process.env;
@@ -12,7 +13,7 @@ export default class JWTService {
     algorithm: 'HS256',
   };
 
-  public static sign(payload: any): string {
+  public static sign(payload: IJWTPayload): string {
     return sign(payload, JWT_SECRET as Secret, JWTService.signOptions);
   }
 
