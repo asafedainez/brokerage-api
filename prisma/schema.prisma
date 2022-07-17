@@ -9,3 +9,61 @@ datasource db {
   provider = "postgresql"
   url      = env("DB_URL")
 }
+
+enum AssetOperation {
+  BUY
+  SELL
+}
+
+enum AccountOperation {
+  DEPOSIT
+  WITHDRAW
+}
+
+model AccountMovement {
+  id        String           @id @default(uuid())
+  idUser    String
+  operation AccountOperation
+  value     Decimal          @default(0.00)
+  createdAt DateTime         @default(now())
+  user      User             @relation(fields: [idUser], references: [id])
+
+  @@map("accountMovements")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  cpf       String   @unique
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  AccountMovement AccountMovement[]
+  Operations      Operations[]
+  @@map("users")
+}
+
+model Asset {
+  id        String  @id @default(uuid())
+  value     Decimal @default(0.00)
+  quantity  Int     @default(0)
+  assetName String  @unique
+
+  Operations Operations[]
+  @@map("assets")
+}
+
+model Operations {
+  id            String         @id @default(uuid())
+  idUser        String
+  idAsset       String
+  createdAt     DateTime       @default(now())
+  quantity      Int
+  purchasePrice Decimal
+  type          AssetOperation
+
+  user  User  @relation(fields: [idUser], references: [id])
+  asset Asset @relation(fields: [idAsset], references: [id])
+}
