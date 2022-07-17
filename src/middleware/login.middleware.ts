@@ -3,12 +3,16 @@ import { StatusCodes } from 'http-status-codes';
 import Joi from "joi";
 
 const loginSchema = Joi.object().keys({
-  email: Joi.string().email().required(),
+  cpf: Joi.string().length(11).required(),
   password: Joi.string().min(8).required()
-})
+}).required();
 
-export default function LoginMiddleware(err: Error, req: Request, res: Response, next: NextFunction): Response | void {
+export default function LoginMiddleware(req: Request, res: Response, next: NextFunction) {
+  console.log(req.body);
+
+
   const { error } = loginSchema.validate(req.body);
+
 
   if (error) {
     return res.status(StatusCodes.BAD_REQUEST).json({ error: error.details[0].message });
