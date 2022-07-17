@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import { StatusCodes } from 'http-status-codes';
 import IAuth from '../interfaces/Auth';
 import Auth from '../utils/Auth';
+import Bcrypt from '../utils/Bcrypt';
 import HttpException from '../utils/HttpException';
 
 export default class LoginService implements IAuth {
@@ -11,16 +12,20 @@ export default class LoginService implements IAuth {
     this.database = new PrismaClient();
   }
 
-  public async login(email: string, password: string): Promise<string> {
+  public async login(cpf: string, password: string): Promise<string> {
+    const bcrypt = new Bcrypt();
+    const passwordHash = await bcrypt.genHash(password);
+    console.log(passwordHash, password);
+
     const user = await this.database.user.findFirst({
       where: {
-        email,
-        password,
+        cpf,
+        password: passwordHash,
       },
     });
 
     if (!user) {
-      throw new HttpException(StatusCodes.UNAUTHORIZED, 'Email or password is incorrect');
+      throw new HttpException(StatusCodes.UNAUTHORIZED, 'CPF or password is incorrect');
     }
 
     return Auth.sign({ sub: user.id, name: user.name });
