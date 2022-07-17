@@ -19,6 +19,7 @@ services:
       NODE_PORT: 3000
       DB_URL: postgres://postgres:password@db:5432/brokerage
       JWT_SECRET: secretJWT
+      SALT_ROUNDS: 10
   db:
     container_name: postgres_db
     image: postgres:14.4-alpine
