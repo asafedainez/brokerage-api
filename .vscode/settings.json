@@ -1,0 +1,17 @@
+{
+  "conventionalCommits.scopes": [
+    "exceptions",
+    "eslint",
+    "middleware",
+    "auth",
+    "dependences",
+    "interface",
+    "service",
+    "db",
+    "controller",
+    "route",
+    "conventional commits"
+  ],
+    "conventionalCommits.gitmoji": false,
+    "conventionalCommits.promptFooter": false
+}
