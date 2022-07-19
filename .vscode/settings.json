@@ -1,7 +1,7 @@
 {
   "conventionalCommits.scopes": [
     "exceptions",
-    "eslint",
+    "eslint/prettier",
     "middleware",
     "auth",
     "dependences",

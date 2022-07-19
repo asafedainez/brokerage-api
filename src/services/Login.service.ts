@@ -20,13 +20,19 @@ export default class LoginService implements IAuth {
     });
 
     if (!user) {
-      throw new HttpException(StatusCodes.UNAUTHORIZED, 'CPF or password is incorrect');
+      throw new HttpException(
+        StatusCodes.UNAUTHORIZED,
+        'CPF or password is incorrect'
+      );
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      throw new HttpException(StatusCodes.UNAUTHORIZED, 'CPF or password is incorrect');
+      throw new HttpException(
+        StatusCodes.UNAUTHORIZED,
+        'CPF or password is incorrect'
+      );
     }
 
     return Auth.sign({ sub: user.id, name: user.name });
