@@ -1,5 +1,5 @@
 export default interface IApiGet<T> {
-  getAll(): Promise<T[]>;
-  getById(id: string): Promise<T>;
-  create(item: T): Promise<T>;
+  getAll(): Promise<T[] | void[]>;
+  getById(id: string): Promise<T | null>;
+  create(item: T): Promise<string | boolean>;
 }
