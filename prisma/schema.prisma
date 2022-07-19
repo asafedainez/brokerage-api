@@ -39,6 +39,7 @@ model User {
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
+  active    Boolean  @default(true)
 
   AccountMovement AccountMovement[]
   Operations      Operations[]
