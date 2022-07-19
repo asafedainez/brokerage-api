@@ -14,17 +14,18 @@ export default class LoginService implements IAuth {
 
   public async login(cpf: string, password: string): Promise<string> {
     const bcrypt = new Bcrypt();
-    const passwordHash = await bcrypt.genHash(password);
-    console.log(passwordHash, password);
 
     const user = await this.database.user.findFirst({
-      where: {
-        cpf,
-        password: passwordHash,
-      },
+      where: { cpf },
     });
 
     if (!user) {
+      throw new HttpException(StatusCodes.UNAUTHORIZED, 'CPF or password is incorrect');
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
       throw new HttpException(StatusCodes.UNAUTHORIZED, 'CPF or password is incorrect');
     }
 
