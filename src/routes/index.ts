@@ -1,3 +1,8 @@
+import { Router } from 'express';
 import loginRouter from './login.routes';
 
-export default loginRouter;
+const routes = Router();
+
+routes.use(loginRouter);
+
+export default routes;
