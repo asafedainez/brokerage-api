@@ -43,6 +43,7 @@ model User {
 
   AccountMovement AccountMovement[]
   Operations      Operations[]
+
   @@map("users")
 }
 
@@ -53,6 +54,7 @@ model Asset {
   assetName String  @unique
 
   Operations Operations[]
+
   @@map("assets")
 }
 
@@ -67,4 +69,6 @@ model Operations {
 
   user  User  @relation(fields: [idUser], references: [id])
   asset Asset @relation(fields: [idAsset], references: [id])
+
+  @@map("operations")
 }
