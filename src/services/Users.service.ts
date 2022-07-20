@@ -70,6 +70,24 @@ export default class UserService implements IApiRestfulService<IUser> {
   }
 
   async remove(id: string): Promise<boolean> {
+    const balance = await this.getAccountBalance(id);
+
+    if (balance.balance > 0) {
+      throw new HttpException(
+        StatusCodes.BAD_REQUEST,
+        'User has balance, cannot delete'
+      );
+    }
+
+    const assets = await this.getAssets(id);
+
+    if (assets.length) {
+      throw new HttpException(
+        StatusCodes.BAD_REQUEST,
+        'User has assets, cannot delete'
+      );
+    }
+
     await this.database.user.update({
       where: { id },
       data: {
