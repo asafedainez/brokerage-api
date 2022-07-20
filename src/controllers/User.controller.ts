@@ -29,7 +29,7 @@ export default class UserController implements IApiRestfulController {
 
     const user = await UserController.userService.getById(userId);
 
-    return res.status(StatusCodes.OK).json({ user });
+    return res.status(StatusCodes.OK).json(user);
   }
 
   async create(req: Request, res: Response): Promise<Response> {
@@ -55,7 +55,7 @@ export default class UserController implements IApiRestfulController {
       cpf,
     });
 
-    return res.status(StatusCodes.OK).json({ user: userUpdated });
+    return res.status(StatusCodes.OK).json(userUpdated);
   }
 
   async remove(req: Request, res: Response): Promise<Response> {
@@ -63,7 +63,7 @@ export default class UserController implements IApiRestfulController {
 
     await UserController.userService.remove(userId);
 
-    return res.status(StatusCodes.NO_CONTENT).json({ message: 'User removed' });
+    return res.status(StatusCodes.NO_CONTENT).end();
   }
 
   async getAccountBalance(req: Request, res: Response): Promise<Response> {
@@ -71,7 +71,7 @@ export default class UserController implements IApiRestfulController {
 
     const balance = await UserController.userService.getAccountBalance(userId);
 
-    return res.status(StatusCodes.OK).json({ balance });
+    return res.status(StatusCodes.OK).json(balance);
   }
 
   async accountDeposit(req: Request, res: Response): Promise<Response> {
@@ -84,7 +84,7 @@ export default class UserController implements IApiRestfulController {
       value
     );
 
-    return res.status(StatusCodes.OK).json({ deposit });
+    return res.status(StatusCodes.OK).json(deposit);
   }
 
   async accountWithdraw(req: Request, res: Response): Promise<Response> {
@@ -97,7 +97,7 @@ export default class UserController implements IApiRestfulController {
       value
     );
 
-    return res.status(StatusCodes.OK).json({ withdraw });
+    return res.status(StatusCodes.OK).json(withdraw);
   }
 
   async getAssets(req: Request, res: Response): Promise<Response> {
@@ -105,6 +105,6 @@ export default class UserController implements IApiRestfulController {
 
     const assets = await UserController.userService.getAssets(userId);
 
-    return res.status(StatusCodes.OK).json({ assets });
+    return res.status(StatusCodes.OK).json(assets);
   }
 }
