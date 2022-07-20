@@ -175,6 +175,36 @@ async function seed() {
       },
     ],
   });
+
+  await database.accountMovement.createMany({
+    data: [
+      {
+        idUser: user.id,
+        operation: 'BUY_ASSET',
+        value: 100 * 68.88,
+      },
+      {
+        idUser: user.id,
+        operation: 'BUY_ASSET',
+        value: 15 * 29.18,
+      },
+      {
+        idUser: user.id,
+        operation: 'BUY_ASSET',
+        value: 2 * 15.49,
+      },
+      {
+        idUser: user.id,
+        operation: 'SELL_ASSET',
+        value: 2 * 15.49,
+      },
+      {
+        idUser: user.id,
+        operation: 'BUY_ASSET',
+        value: 10 * 29.18,
+      },
+    ],
+  });
 }
 
 seed();
