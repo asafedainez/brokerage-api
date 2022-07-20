@@ -108,7 +108,7 @@ export default class UserService implements IApiRestful<IUser> {
     }
 
     const balance = account.reduce((acc, curr) => {
-      return curr.operation === 'DEPOSIT'
+      return curr.operation === 'DEPOSIT' || curr.operation === 'SELL_ASSET'
         ? acc + Number(curr.value)
         : acc - Number(curr.value);
     }, 0);
