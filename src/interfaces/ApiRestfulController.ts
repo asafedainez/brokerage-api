@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 
 export default interface IApiRestfulController {
-  getAll(req: Request, res: Response): Promise<Response>;
   getById(req: Request, res: Response): Promise<Response>;
   create(req: Request, res: Response): Promise<Response>;
   update(req: Request, res: Response): Promise<Response>;

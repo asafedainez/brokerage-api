@@ -12,12 +12,6 @@ export default class UserController implements IApiRestfulController {
     this.userService = new UserService();
   }
 
-  async getAll(req: Request, res: Response): Promise<Response> {
-    const users = this.userService.getAll();
-
-    return res.status(StatusCodes.OK).json({ users });
-  }
-
   async getById(req: Request, res: Response): Promise<Response> {
     const userId = this.getUserId(req);
     const user = await this.userService.getById(userId);
