@@ -10,7 +10,8 @@
     "migrate": "yarn prisma migrate dev",
     "generate": "yarn prisma generate",
     "seed": "ts-node src/database/seed.ts",
-    "push": "yarn prisma db push"
+    "push": "yarn prisma db push",
+    "drop": "yarn prisma migrate reset"
   },
   "dependencies": {
     "@prisma/client": "^4.0.0",
