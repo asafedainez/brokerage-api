@@ -1,5 +1,5 @@
 export default interface IAsset {
-  idAsset: string;
+  idAsset?: string;
   assetName: string;
   value: number;
   quantity: number;
