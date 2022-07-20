@@ -1,7 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
-import {
-  Secret, sign, SignOptions, verify,
-} from 'jsonwebtoken';
+import { Secret, sign, SignOptions, verify } from 'jsonwebtoken';
 import IJWTPayload from '../interfaces/JwtPayload';
 import HttpException from './HttpException';
 
@@ -17,10 +15,10 @@ export default class JWTService {
     return sign(payload, JWT_SECRET as Secret, JWTService.signOptions);
   }
 
-  public static verify(token: string): any {
+  public static verify(token: string): IJWTPayload {
     try {
       const decoded = verify(token, JWT_SECRET as Secret);
-      return decoded;
+      return decoded as IJWTPayload;
     } catch (error) {
       throw new HttpException(StatusCodes.UNAUTHORIZED, 'Invalid token');
     }
