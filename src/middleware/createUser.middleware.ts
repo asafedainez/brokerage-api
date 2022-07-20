@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import Joi from 'joi';
+import HttpException from '../utils/HttpException';
 
 const userDataSchema = Joi.object().keys({
   cpf: Joi.string().length(11).required(),
@@ -17,9 +18,7 @@ export default function createUserMiddleware(
   const { error } = userDataSchema.validate(req.body);
 
   if (error) {
-    return res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ error: error.details[0].message });
+    throw new HttpException(StatusCodes.BAD_REQUEST, error.details[0].message);
   }
   next();
 }

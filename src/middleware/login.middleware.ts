@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import Joi from 'joi';
+import HttpException from '../utils/HttpException';
 
 const loginSchema = Joi.object()
   .keys({
@@ -17,9 +18,8 @@ export default function LoginMiddleware(
   const { error } = loginSchema.validate(req.body);
 
   if (error) {
-    return res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ error: error.details[0].message });
+    throw new HttpException(StatusCodes.UNAUTHORIZED, error.details[0].message);
   }
+
   next();
 }
