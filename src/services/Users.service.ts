@@ -9,12 +9,13 @@ import { StatusCodes } from 'http-status-codes';
 import IAccount from '../interfaces/Account';
 import IAccountTransaction from '../interfaces/AccountTransaction';
 import IAsset from '../interfaces/Asset';
+import prismaDatabase from '../database';
 
 export default class UserService implements IApiRestfulService<IUser> {
   protected database: PrismaClient;
 
   constructor() {
-    this.database = new PrismaClient();
+    this.database = prismaDatabase;
   }
 
   async getById(id: string): Promise<IUser | null> {
@@ -152,9 +153,16 @@ export default class UserService implements IApiRestfulService<IUser> {
     id: string,
     value: number
   ): Promise<IAccountTransaction> {
+    if (value <= 0) {
+      throw new HttpException(
+        StatusCodes.BAD_REQUEST,
+        'Value must be greater than zero'
+      );
+    }
+
     const { balance } = await this.getAccountBalance(id);
 
-    if (value < balance) {
+    if (balance < value) {
       throw new HttpException(StatusCodes.BAD_REQUEST, 'Insufficient funds');
     }
 
