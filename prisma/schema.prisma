@@ -18,6 +18,8 @@ enum AssetOperation {
 enum AccountOperation {
   DEPOSIT
   WITHDRAW
+  BUY_ASSET
+  SELL_ASSET
 }
 
 model AccountMovement {
