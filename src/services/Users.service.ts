@@ -1,4 +1,4 @@
-import IApiRestful from '../interfaces/ApiRestful';
+import IApiRestfulService from '../interfaces/ApiRestfulService';
 import IUser from '../interfaces/User';
 import { PrismaClient } from '@prisma/client';
 import Bcrypt from '../utils/Bcrypt';
@@ -10,25 +10,11 @@ import IAccount from '../interfaces/Account';
 import IAccountTransaction from '../interfaces/AccountTransaction';
 import IAsset from '../interfaces/Asset';
 
-export default class UserService implements IApiRestful<IUser> {
+export default class UserService implements IApiRestfulService<IUser> {
   protected database: PrismaClient;
 
   constructor() {
     this.database = new PrismaClient();
-  }
-
-  async getAll(): Promise<IUser[] | void[]> {
-    const users = await this.database.user.findMany({
-      orderBy: {
-        name: 'asc',
-      },
-    });
-
-    const usersFiltered = users.map((user) => {
-      user.id, user.name, user.cpf, user.email;
-    });
-
-    return usersFiltered;
   }
 
   async getById(id: string): Promise<IUser | null> {
