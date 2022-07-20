@@ -4,6 +4,8 @@ import { PrismaClient } from '@prisma/client';
 import prismaDatabase from '../database';
 import HttpException from '../utils/HttpException';
 import { StatusCodes } from 'http-status-codes';
+import UserService from './Users.service';
+import IOperation from '../interfaces/Operations';
 
 export default class AssetsService implements IApiRestfulService<IAsset> {
   protected database: PrismaClient;
@@ -74,5 +76,80 @@ export default class AssetsService implements IApiRestfulService<IAsset> {
 
   async remove(id: string): Promise<boolean> {
     throw new Error('Method not implemented.');
+  }
+
+  async buyAsset(
+    id: string,
+    idUser: string,
+    quantity: number
+  ): Promise<IOperation> {
+    const userService = new UserService();
+
+    const asset = await this.database.asset.findUnique({
+      where: { id },
+    });
+
+    if (!asset) {
+      throw new HttpException(StatusCodes.NOT_FOUND, 'Asset not found');
+    }
+
+    if (quantity > asset.quantity) {
+      throw new HttpException(
+        StatusCodes.BAD_REQUEST,
+        'Not enough assets to buy'
+      );
+    }
+
+    const { balance } = await userService.getAccountBalance(idUser);
+
+    const totalCost = quantity * Number(asset.value);
+
+    if (totalCost > balance) {
+      throw new HttpException(
+        StatusCodes.BAD_REQUEST,
+        'Not enough founds to buy'
+      );
+    }
+
+    const createOperation = this.database.operations.create({
+      data: {
+        idUser,
+        idAsset: asset.id,
+        quantity,
+        purchasePrice: asset.value,
+        type: 'BUY',
+      },
+    });
+
+    const updateQuantityAsset = this.database.asset.update({
+      where: { id },
+      data: {
+        quantity: asset.quantity - quantity,
+      },
+    });
+
+    const createAccountMovement = this.database.accountMovement.create({
+      data: {
+        idUser,
+        value: totalCost,
+        operation: 'BUY_ASSET',
+      },
+    });
+
+    const [operation] = await this.database.$transaction([
+      createOperation,
+      updateQuantityAsset,
+      createAccountMovement,
+    ]);
+
+    return {
+      id: operation.id,
+      idUser: operation.idUser,
+      idAsset: operation.idAsset,
+      createdAt: operation.createdAt,
+      quantity: operation.quantity,
+      purchasePrice: Number(operation.purchasePrice),
+      type: operation.type,
+    };
   }
 }
