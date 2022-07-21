@@ -7,11 +7,11 @@
   "scripts": {
     "start": "ts-node src/index.ts",
     "dev": "nodemon --watch 'src/' --exec 'ts-node src/server.ts' -e ts",
-    "migrate": "yarn prisma migrate dev",
+    "db:migrate": "yarn prisma migrate dev",
     "generate": "yarn prisma generate",
-    "seed": "ts-node src/database/seed.ts",
-    "push": "yarn prisma db push",
-    "drop": "yarn prisma migrate reset"
+    "db:seed": "ts-node src/database/seed.ts",
+    "db:push": "yarn prisma db push",
+    "db:drop": "yarn prisma migrate reset"
   },
   "dependencies": {
     "@prisma/client": "^4.0.0",
