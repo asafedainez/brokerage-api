@@ -17,14 +17,27 @@ export default class AssetsService implements IApiRestfulService<IAsset> {
   async getAll(): Promise<IAsset[]> {
     const assets = await this.database.asset.findMany();
 
-    return assets.map((asset) => {
+    const assetsSold = await this.database.operations.findMany({
+      where: { type: 'BUY' },
+    });
+
+    const allAssetsWithSoldQuantity = assets.map((asset) => {
+      const quantitySold = assetsSold.reduce((total, assetCurr) => {
+        return assetCurr.idAsset === asset.id
+          ? total + assetCurr.quantity
+          : total;
+      }, 0);
+
       return {
         idAsset: asset.id,
         assetName: asset.assetName,
         value: Number(asset.value),
         quantity: asset.quantity,
+        sold: quantitySold,
       };
     });
+
+    return allAssetsWithSoldQuantity;
   }
 
   async getById(id: string): Promise<IAsset | null> {
