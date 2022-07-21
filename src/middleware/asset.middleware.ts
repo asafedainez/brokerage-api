@@ -6,7 +6,7 @@ import { StatusCodes } from 'http-status-codes';
 const assetSchema = Joi.object().keys({
   assetName: Joi.string().length(5).required(),
   value: Joi.number().min(0).required(),
-  quantity: Joi.number().min(0).required(),
+  quantity: Joi.number().integer().min(0).required(),
 });
 
 export default function assetMiddleware(
