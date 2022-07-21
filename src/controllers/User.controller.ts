@@ -66,40 +66,6 @@ export default class UserController implements IApiRestfulController {
     return res.status(StatusCodes.NO_CONTENT).end();
   }
 
-  async getAccountBalance(req: Request, res: Response): Promise<Response> {
-    const userId = UserController.getUserId(req);
-
-    const balance = await UserController.userService.getAccountBalance(userId);
-
-    return res.status(StatusCodes.OK).json(balance);
-  }
-
-  async accountDeposit(req: Request, res: Response): Promise<Response> {
-    const userId = UserController.getUserId(req);
-
-    const { value } = req.body;
-
-    const deposit = await UserController.userService.accountDeposit(
-      userId,
-      value
-    );
-
-    return res.status(StatusCodes.OK).json(deposit);
-  }
-
-  async accountWithdraw(req: Request, res: Response): Promise<Response> {
-    const userId = UserController.getUserId(req);
-
-    const { value } = req.body;
-
-    const withdraw = await UserController.userService.accountWithdraw(
-      userId,
-      value
-    );
-
-    return res.status(StatusCodes.OK).json(withdraw);
-  }
-
   async getAssets(req: Request, res: Response): Promise<Response> {
     const userId = UserController.getUserId(req);
 
