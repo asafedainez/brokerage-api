@@ -97,7 +97,7 @@ export default class AssetsService implements IApiRestService<IAsset> {
     idUser: string,
     quantity: number
   ): Promise<IOperation> {
-    const userService = new UserService();
+    const accountService = new AccountService();
 
     const asset = await this.database.asset.findUnique({
       where: { id: idAsset },
@@ -114,7 +114,7 @@ export default class AssetsService implements IApiRestService<IAsset> {
       );
     }
 
-    const { balance } = await userService.getAccountBalance(idUser);
+    const { balance } = await accountService.getAccountBalance(idUser);
 
     const totalCost = quantity * Number(asset.value);
 
