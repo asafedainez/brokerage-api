@@ -79,14 +79,14 @@ export default class AssetsService implements IApiRestfulService<IAsset> {
   }
 
   async buyAsset(
-    id: string,
+    idAsset: string,
     idUser: string,
     quantity: number
   ): Promise<IOperation> {
     const userService = new UserService();
 
     const asset = await this.database.asset.findUnique({
-      where: { id },
+      where: { id: idAsset },
     });
 
     if (!asset) {
@@ -114,7 +114,7 @@ export default class AssetsService implements IApiRestfulService<IAsset> {
     const createOperation = this.database.operations.create({
       data: {
         idUser,
-        idAsset: asset.id,
+        idAsset,
         quantity,
         purchasePrice: asset.value,
         type: 'BUY',
@@ -122,7 +122,7 @@ export default class AssetsService implements IApiRestfulService<IAsset> {
     });
 
     const updateQuantityAsset = this.database.asset.update({
-      where: { id },
+      where: { id: idAsset },
       data: {
         quantity: asset.quantity - quantity,
       },
@@ -144,10 +144,10 @@ export default class AssetsService implements IApiRestfulService<IAsset> {
 
     return {
       id: operation.id,
-      idUser: operation.idUser,
-      idAsset: operation.idAsset,
+      idUser,
+      idAsset,
       createdAt: operation.createdAt,
-      quantity: operation.quantity,
+      quantity,
       purchasePrice: Number(operation.purchasePrice),
       type: operation.type,
     };
