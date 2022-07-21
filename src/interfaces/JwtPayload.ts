@@ -1,4 +1,4 @@
-export default interface IJWTPayload {
+export default interface IJwtPayload {
   sub: string;
   name: string;
   iat?: Date;
