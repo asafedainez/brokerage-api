@@ -9,21 +9,21 @@ const assetController = new AssetController();
 const assetRouter = Router();
 
 assetRouter.post(
-  'assets/buy',
+  '/asset/buy',
   tokenMiddleware,
   operateAssetMiddleware,
   assetController.buyAsset
 );
 assetRouter.post(
-  'assets/sell',
+  '/asset/sell',
   tokenMiddleware,
   operateAssetMiddleware,
   assetController.sellAsset
 );
 
-assetRouter.get('/assets/:id', assetController.getById);
-assetRouter.get('/assets', assetController.getAll);
-assetRouter.post('/assets', assetMiddleware, assetController.create);
-assetRouter.put('/assets/:id', assetMiddleware, assetController.update);
+assetRouter.get('/asset/:id', assetController.getById);
+assetRouter.get('/asset', assetController.getAll);
+assetRouter.post('/asset', assetMiddleware, assetController.create);
+assetRouter.put('/asset/:id', assetMiddleware, assetController.update);
 
 export default assetRouter;
