@@ -1,4 +1,4 @@
-import IApiRestfulService from '../interfaces/ApiRestfulService';
+import IApiRestService from '../interfaces/ApiRestService';
 import IUser from '../interfaces/User';
 import { PrismaClient } from '@prisma/client';
 import Bcrypt from '../utils/Bcrypt';
@@ -10,7 +10,7 @@ import IAsset from '../interfaces/Asset';
 import prismaDatabase from '../database';
 import AccountService from './Account.service';
 
-export default class UserService implements IApiRestfulService<IUser> {
+export default class UserService implements IApiRestService<IUser> {
   protected database: PrismaClient;
 
   constructor() {

@@ -1,4 +1,4 @@
-import IApiRestfulService from '../interfaces/ApiRestfulService';
+import IApiRestService from '../interfaces/ApiRestService';
 import IAsset from '../interfaces/Asset';
 import { PrismaClient } from '@prisma/client';
 import prismaDatabase from '../database';
@@ -6,8 +6,9 @@ import HttpException from '../utils/HttpException';
 import { StatusCodes } from 'http-status-codes';
 import UserService from './Users.service';
 import IOperation from '../interfaces/Operations';
+import AccountService from './Account.service';
 
-export default class AssetsService implements IApiRestfulService<IAsset> {
+export default class AssetsService implements IApiRestService<IAsset> {
   protected database: PrismaClient;
 
   constructor() {
