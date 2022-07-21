@@ -152,4 +152,78 @@ export default class AssetsService implements IApiRestfulService<IAsset> {
       type: operation.type,
     };
   }
+
+  async sellAsset(
+    id: string,
+    idUser: string,
+    quantity: number
+  ): Promise<IOperation> {
+    const userService = new UserService();
+
+    const userAssets = await userService.getAssets(idUser);
+    const userAsset = userAssets.find((asset) => asset.idAsset === id);
+
+    if (!userAsset) {
+      throw new HttpException(
+        StatusCodes.NOT_FOUND,
+        'Asset not found in wallet'
+      );
+    }
+
+    if (userAsset.quantity < quantity) {
+      throw new HttpException(
+        StatusCodes.BAD_REQUEST,
+        'Not enough assets to sell'
+      );
+    }
+
+    const asset = await this.database.asset.findUnique({
+      where: { id },
+    });
+
+    if (!asset) {
+      throw new HttpException(StatusCodes.NOT_FOUND, 'Asset not found');
+    }
+
+    const createOperation = this.database.operations.create({
+      data: {
+        idUser,
+        idAsset: asset.id,
+        quantity,
+        purchasePrice: asset.value,
+        type: 'SELL',
+      },
+    });
+
+    const updateQuantityAsset = this.database.asset.update({
+      where: { id },
+      data: {
+        quantity: asset.quantity + quantity,
+      },
+    });
+
+    const createAccountMovement = this.database.accountMovement.create({
+      data: {
+        idUser,
+        value: quantity * Number(asset.value),
+        operation: 'SELL_ASSET',
+      },
+    });
+
+    const [operation] = await this.database.$transaction([
+      createOperation,
+      updateQuantityAsset,
+      createAccountMovement,
+    ]);
+
+    return {
+      id: operation.id,
+      idUser: operation.idUser,
+      idAsset: operation.idAsset,
+      createdAt: operation.createdAt,
+      quantity: operation.quantity,
+      purchasePrice: Number(operation.purchasePrice),
+      type: operation.type,
+    };
+  }
 }
