@@ -9,4 +9,12 @@ export default class AssetController {
 
     return res.status(StatusCodes.OK).json(assets);
   }
+
+  async getById(req: Request, res: Response): Promise<Response> {
+    const id = req.params.id;
+
+    const asset = await AssetController.assetService.getById(id);
+
+    return res.status(StatusCodes.OK).json(asset);
+  }
 }
