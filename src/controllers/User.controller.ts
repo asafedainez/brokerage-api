@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 import UserService from '../services/Users.service';
-import IApiRestfulController from '../interfaces/ApiRestfulController';
+import IApiRestController from '../interfaces/ApiRestController';
 import { StatusCodes } from 'http-status-codes';
 import Auth from '../utils/Auth';
 import HttpException from '../utils/HttpException';
 
-export default class UserController implements IApiRestfulController {
+export default class UserController implements IApiRestController {
   protected static userService = new UserService();
 
   // constructor() {
