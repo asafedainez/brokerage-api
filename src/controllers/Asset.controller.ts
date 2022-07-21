@@ -17,4 +17,18 @@ export default class AssetController {
 
     return res.status(StatusCodes.OK).json(asset);
   }
+
+  async create(req: Request, res: Response): Promise<Response> {
+    const { assetName, value, quantity } = req.body;
+
+    const id = await AssetController.assetService.create({
+      assetName,
+      value,
+      quantity,
+    });
+
+    return res
+      .status(StatusCodes.CREATED)
+      .json({ id, assetName, value, quantity });
+  }
 }
