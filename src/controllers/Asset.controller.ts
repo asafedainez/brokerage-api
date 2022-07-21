@@ -1,6 +1,9 @@
 import { Request, Response } from 'express';
 import AssetsService from '../services/Assets.service';
 import { StatusCodes } from 'http-status-codes';
+import HttpException from '../utils/HttpException';
+import Auth from '../utils/Auth';
+
 export default class AssetController {
   private static assetService = new AssetsService();
 
@@ -43,5 +46,17 @@ export default class AssetController {
     });
 
     return res.status(StatusCodes.OK).json(assetUpdated);
+  }
+
+  private static getUserId(req: Request): string {
+    const userToken = req.headers.authorization?.split('Bearer ')[1];
+
+    if (!userToken) {
+      throw new HttpException(StatusCodes.UNAUTHORIZED, 'Token not found');
+    }
+
+    const userId = Auth.verify(userToken).sub;
+
+    return userId;
   }
 }
