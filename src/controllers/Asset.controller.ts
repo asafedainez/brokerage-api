@@ -31,4 +31,17 @@ export default class AssetController {
       .status(StatusCodes.CREATED)
       .json({ id, assetName, value, quantity });
   }
+
+  async update(req: Request, res: Response): Promise<Response> {
+    const id = req.params.id;
+    const { assetName, value, quantity } = req.body;
+
+    const assetUpdated = await AssetController.assetService.update(id, {
+      assetName,
+      value,
+      quantity,
+    });
+
+    return res.status(StatusCodes.OK).json(assetUpdated);
+  }
 }
