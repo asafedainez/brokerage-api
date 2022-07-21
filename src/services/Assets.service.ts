@@ -18,15 +18,16 @@ export default class AssetsService implements IApiRestService<IAsset> {
   async getAll(): Promise<IAsset[]> {
     const assets = await this.database.asset.findMany();
 
-    const assetsSold = await this.database.operations.findMany({
-      where: { type: 'BUY' },
-    });
+    const assetsSold = await this.database.operations.findMany();
 
     const allAssetsWithSoldQuantity = assets.map((asset) => {
       const quantitySold = assetsSold.reduce((total, assetCurr) => {
-        return assetCurr.idAsset === asset.id
-          ? total + assetCurr.quantity
-          : total;
+        if (assetCurr.idAsset === asset.id) {
+          assetCurr.type === 'BUY'
+            ? total + assetCurr.quantity
+            : total - assetCurr.quantity;
+        }
+        return total;
       }, 0);
 
       return {
