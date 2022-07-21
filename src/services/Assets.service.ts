@@ -107,7 +107,7 @@ export default class AssetsService implements IApiRestfulService<IAsset> {
     if (totalCost > balance) {
       throw new HttpException(
         StatusCodes.BAD_REQUEST,
-        'Not enough founds to buy'
+        'Not enough funds to buy this quantity of assets'
       );
     }
 
