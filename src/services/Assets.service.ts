@@ -167,14 +167,14 @@ export default class AssetsService implements IApiRestfulService<IAsset> {
   }
 
   async sellAsset(
-    id: string,
+    idAsset: string,
     idUser: string,
     quantity: number
   ): Promise<IOperation> {
     const userService = new UserService();
 
     const userAssets = await userService.getAssets(idUser);
-    const userAsset = userAssets.find((asset) => asset.idAsset === id);
+    const userAsset = userAssets.find((asset) => asset.idAsset === idAsset);
 
     if (!userAsset) {
       throw new HttpException(
@@ -191,7 +191,7 @@ export default class AssetsService implements IApiRestfulService<IAsset> {
     }
 
     const asset = await this.database.asset.findUnique({
-      where: { id },
+      where: { id: idAsset },
     });
 
     if (!asset) {
@@ -201,7 +201,7 @@ export default class AssetsService implements IApiRestfulService<IAsset> {
     const createOperation = this.database.operations.create({
       data: {
         idUser,
-        idAsset: asset.id,
+        idAsset,
         quantity,
         purchasePrice: asset.value,
         type: 'SELL',
@@ -209,7 +209,7 @@ export default class AssetsService implements IApiRestfulService<IAsset> {
     });
 
     const updateQuantityAsset = this.database.asset.update({
-      where: { id },
+      where: { id: idAsset },
       data: {
         quantity: asset.quantity + quantity,
       },
@@ -231,10 +231,10 @@ export default class AssetsService implements IApiRestfulService<IAsset> {
 
     return {
       id: operation.id,
-      idUser: operation.idUser,
-      idAsset: operation.idAsset,
+      idUser,
+      idAsset,
       createdAt: operation.createdAt,
-      quantity: operation.quantity,
+      quantity,
       purchasePrice: Number(operation.purchasePrice),
       type: operation.type,
     };
