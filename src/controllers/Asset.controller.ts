@@ -61,6 +61,19 @@ export default class AssetController {
     return res.status(StatusCodes.OK).json(assetBought);
   }
 
+  async sellAsset(req: Request, res: Response): Promise<Response> {
+    const { idAsset, quantity } = req.body;
+    const idUser = AssetController.getUserId(req);
+
+    const assetSold = await AssetController.assetService.sellAsset(
+      idAsset,
+      idUser,
+      quantity
+    );
+
+    return res.status(StatusCodes.OK).json(assetSold);
+  }
+
   private static getUserId(req: Request): string {
     const userToken = req.headers.authorization?.split('Bearer ')[1];
 
