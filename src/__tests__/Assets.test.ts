@@ -3,6 +3,43 @@ import app from '../app';
 import IAsset from '../interfaces/Asset';
 import { StatusCodes } from 'http-status-codes';
 
+describe('Verifica métodos GET de ativos', () => {
+  test('Verifica se é possível pegar todos os ativos com a quantidade vendida de cada ativo', async () => {
+    const reqAllAssets = await request(app).get('/asset');
+
+    expect(reqAllAssets.status).toBe(StatusCodes.OK);
+    expect(reqAllAssets.body).toBeInstanceOf(Array);
+    expect(reqAllAssets.body[0]).toBeInstanceOf(Object);
+    expect(reqAllAssets.body[0]).toHaveProperty('idAsset');
+    expect(reqAllAssets.body[0]).toHaveProperty('assetName');
+    expect(reqAllAssets.body[0]).toHaveProperty('value');
+    expect(reqAllAssets.body[0]).toHaveProperty('quantity');
+    expect(reqAllAssets.body[0]).toHaveProperty('sold');
+  });
+
+  test('Verifica se é possível pegar um ativo pelo id', async () => {
+    const reqAllAssets = await request(app).get('/asset');
+
+    const reqAssetById = await request(app).get(
+      `/asset/${reqAllAssets.body[0].idAsset}`
+    );
+
+    expect(reqAssetById.status).toBe(StatusCodes.OK);
+    expect(reqAssetById.body).toBeInstanceOf(Object);
+    expect(reqAssetById.body).toHaveProperty('idAsset');
+    expect(reqAssetById.body).toHaveProperty('assetName');
+    expect(reqAssetById.body).toHaveProperty('value');
+    expect(reqAssetById.body).toHaveProperty('quantity');
+  });
+
+  test('Verifica se é possível pegar um ativo pelo id que não existe', async () => {
+    const reqAssetById = await request(app).get('/asset/xablau');
+
+    expect(reqAssetById.status).toBe(StatusCodes.NOT_FOUND);
+    expect(reqAssetById.body.message).toBe('Asset not found');
+  });
+});
+
 describe('Verifica compra de ativos', () => {
   let tokenUser: string;
   let allAssets: IAsset[];
