@@ -1,7 +1,5 @@
 import request from 'supertest';
 import app from '../app';
-import { prismaMock } from './prismaMock';
-import AssetsService from '../services/Assets.service';
 import IAsset from '../interfaces/Asset';
 import { StatusCodes } from 'http-status-codes';
 
