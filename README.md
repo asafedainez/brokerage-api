@@ -55,6 +55,10 @@ yarn db:seed
 yarn start
 
 ```
+### Executando testes
+```
+yarn test
+```
 
 ## Variáveis de Ambiente
 
