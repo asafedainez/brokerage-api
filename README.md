@@ -60,6 +60,12 @@ yarn start
 yarn test
 ```
 
+## Swagger
+
+O link para o Swagger é:
+
+`localhost:3000/docs`
+
 ## Variáveis de Ambiente
 
 Esse projeto utiliza variáveis de ambiente. 
