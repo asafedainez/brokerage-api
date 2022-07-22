@@ -49,4 +49,17 @@ describe('Verifica venda de ativos', () => {
     expect(reqBuy.status).toBe(StatusCodes.NOT_FOUND);
     expect(reqBuy.body.message).toBe('Asset not found');
   });
+
+  test('Verifica se é possível comprar mais ativos que a corretora tem disponível', async () => {
+    const reqBuy = await request(app)
+      .post('/asset/buy')
+      .send({
+        idAsset: allAssets[1].idAsset,
+        quantity: allAssets[1].quantity + 1,
+      })
+      .set('Authorization', `Bearer ${tokenUser}`);
+
+    expect(reqBuy.status).toBe(StatusCodes.BAD_REQUEST);
+    expect(reqBuy.body.message).toBe('Not enough assets to buy');
+  });
 });
