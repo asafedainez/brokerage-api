@@ -12,7 +12,9 @@
     "db:seed": "ts-node src/database/seed.ts",
     "db:push": "yarn prisma db push",
     "db:drop": "yarn prisma migrate reset",
-    "test": "jest"
+    "pretest": "DB_URL='postgres://postgres:password@db_test:5432/brokerage' yarn db:push && DB_URL='postgres://postgres:password@db_test:5432/brokerage' yarn db:seed",
+    "posttest": "DB_URL='postgres://postgres:password@db_test:5432/brokerage' yarn db:drop --force",
+    "test": "DB_URL='postgres://postgres:password@db_test:5432/brokerage' jest"
   },
   "dependencies": {
     "@prisma/client": "^4.0.0",
