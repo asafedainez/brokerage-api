@@ -62,4 +62,29 @@ describe('Verifica venda de ativos', () => {
     expect(reqBuy.status).toBe(StatusCodes.BAD_REQUEST);
     expect(reqBuy.body.message).toBe('Not enough assets to buy');
   });
+
+  test('Verifica se é possível comprar um ativo sem passar o id do ativo na requisição ', async () => {
+    const reqBuy = await request(app)
+      .post('/asset/buy')
+      .send({
+        quantity: 1,
+      })
+      .set('Authorization', `Bearer ${tokenUser}`);
+
+    expect(reqBuy.status).toBe(StatusCodes.BAD_REQUEST);
+    expect(reqBuy.body.message).toBe('"idAsset" is required');
+  });
+
+  test('Verifica se é possível comprar um ativo sem passar a quantidade na requisição ', async () => {
+    const reqBuy = await request(app)
+      .post('/asset/buy')
+      .send({
+        idAsset: allAssets[1].idAsset,
+      })
+      .set('Authorization', `Bearer ${tokenUser}`);
+
+    expect(reqBuy.status).toBe(StatusCodes.BAD_REQUEST);
+    expect(reqBuy.body.message).toBe('"quantity" is required');
+  });
+
 });
