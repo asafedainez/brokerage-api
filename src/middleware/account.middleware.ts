@@ -4,7 +4,7 @@ import HttpException from '../utils/HttpException';
 import { StatusCodes } from 'http-status-codes';
 
 const accountSchema = Joi.object().keys({
-  value: Joi.number().min(0).required(),
+  value: Joi.number().greater(0).required(),
 });
 
 export default function accountMiddleware(
