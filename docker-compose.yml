@@ -29,3 +29,12 @@ services:
       - 5432:5432
     environment:
       POSTGRES_PASSWORD: password
+  db_test:
+    container_name: postgres_db_test
+    image: postgres:14.4-alpine
+    platform: linux/x86_64
+    restart: always
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_PASSWORD: password
