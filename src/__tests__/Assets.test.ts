@@ -87,4 +87,14 @@ describe('Verifica venda de ativos', () => {
     expect(reqBuy.body.message).toBe('"quantity" is required');
   });
 
+  test('Verifica se é possível fazer uma compra de ativos sem passar o token do usuário na requisição', async () => {
+    const reqBuy = await request(app).post('/asset/buy').send({
+      idAsset: allAssets[1].idAsset,
+      quantity: 1,
+    });
+
+    expect(reqBuy.status).toBe(StatusCodes.UNAUTHORIZED);
+    expect(reqBuy.body.message).toBe('Token not found');
+  });
+
 });
