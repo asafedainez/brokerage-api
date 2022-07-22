@@ -10,7 +10,11 @@
     "db",
     "controller",
     "route",
-    "conventional commits"
+    "conventional commits",
+    "tests",
+    "docker",
+    "asset",
+    "account"
   ],
     "conventionalCommits.gitmoji": false,
     "conventionalCommits.promptFooter": false
