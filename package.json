@@ -5,7 +5,7 @@
   "author": "Asafe Dainez",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "start": "ts-node src/server.ts",
     "dev": "nodemon --watch 'src/' --exec 'ts-node src/server.ts' -e ts",
     "db:migrate": "yarn prisma migrate dev",
     "generate": "yarn prisma generate",
