@@ -97,4 +97,29 @@ describe('Verifica venda de ativos', () => {
     expect(reqBuy.body.message).toBe('Token not found');
   });
 
+  test('Verifica se é possível comprar ativos e se retorna os dados da compra', async () => {
+    await request(app)
+      .post('/account/deposit')
+      .send({
+        value: 1000,
+      })
+      .set('Authorization', `Bearer ${tokenUser}`);
+
+    const reqBuy = await request(app)
+      .post('/asset/buy')
+      .send({
+        idAsset: allAssets[1].idAsset,
+        quantity: 1,
+      })
+      .set('Authorization', `Bearer ${tokenUser}`);
+
+    expect(reqBuy.status).toBe(StatusCodes.OK);
+    expect(reqBuy.body).toHaveProperty('id');
+    expect(reqBuy.body).toHaveProperty('idUser');
+    expect(reqBuy.body).toHaveProperty('idAsset');
+    expect(reqBuy.body).toHaveProperty('createdAt');
+    expect(reqBuy.body).toHaveProperty('quantity');
+    expect(reqBuy.body).toHaveProperty('purchasePrice');
+    expect(reqBuy.body).toHaveProperty('type');
+  });
 });
