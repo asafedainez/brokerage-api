@@ -5,7 +5,7 @@ import AssetsService from '../services/Assets.service';
 import IAsset from '../interfaces/Asset';
 import { StatusCodes } from 'http-status-codes';
 
-describe('Verifica venda de ativos', () => {
+describe('Verifica compra de ativos', () => {
   let tokenUser: string;
   let allAssets: IAsset[];
 
@@ -121,5 +121,145 @@ describe('Verifica venda de ativos', () => {
     expect(reqBuy.body).toHaveProperty('quantity');
     expect(reqBuy.body).toHaveProperty('purchasePrice');
     expect(reqBuy.body).toHaveProperty('type');
+  });
+});
+
+describe('Verifica venda de ativos', () => {
+  let tokenUser: string;
+  let allAssets: IAsset[];
+
+  beforeAll(async () => {
+    const reqToken = await request(app).post('/login').send({
+      cpf: '12345678902',
+      password: '12345678',
+    });
+
+    const reqAllAssets = await request(app).get('/asset');
+
+    allAssets = reqAllAssets.body;
+
+    tokenUser = reqToken.body.token;
+  });
+
+  test('Verifica se é possível vender um ativo sem tê-lo comprado anteriormente', async () => {
+    const reqSell = await request(app)
+      .post('/asset/sell')
+      .send({
+        idAsset: allAssets[0].idAsset,
+        quantity: 15,
+      })
+      .set('Authorization', `Bearer ${tokenUser}`);
+
+    expect(reqSell.status).toBe(StatusCodes.NOT_FOUND);
+    expect(reqSell.body.message).toBe('Asset not found in wallet');
+  });
+
+  test('Verifica se é possível vender um ativo que não existe', async () => {
+    const reqSell = await request(app)
+      .post('/asset/sell')
+      .send({
+        idAsset: 'xablau',
+        quantity: 15,
+      })
+      .set('Authorization', `Bearer ${tokenUser}`);
+
+    expect(reqSell.status).toBe(StatusCodes.NOT_FOUND);
+    expect(reqSell.body.message).toBe('Asset not found in wallet');
+  });
+
+  test('Verifica se é possível vender mais ativos que tem disponível na carteira', async () => {
+    await request(app)
+      .post('/account/deposit')
+      .send({
+        value: 10000,
+      })
+      .set('Authorization', `Bearer ${tokenUser}`);
+
+    await request(app)
+      .post('/asset/buy')
+      .send({
+        idAsset: allAssets[1].idAsset,
+        quantity: 10,
+      })
+      .set('Authorization', `Bearer ${tokenUser}`);
+
+    const reqSell = await request(app)
+      .post('/asset/sell')
+      .send({
+        idAsset: allAssets[1].idAsset,
+        quantity: 11,
+      })
+      .set('Authorization', `Bearer ${tokenUser}`);
+
+    expect(reqSell.status).toBe(StatusCodes.BAD_REQUEST);
+    expect(reqSell.body.message).toBe('Not enough assets to sell');
+  });
+
+  test('Verifica se é possível vender um ativo sem passar o id do ativo na requisição ', async () => {
+    const reqSell = await request(app)
+      .post('/asset/sell')
+      .send({
+        quantity: 1,
+      })
+      .set('Authorization', `Bearer ${tokenUser}`);
+
+    expect(reqSell.status).toBe(StatusCodes.BAD_REQUEST);
+    expect(reqSell.body.message).toBe('"idAsset" is required');
+  });
+
+  test('Verifica se é possível vender um ativo sem passar a quantidade na requisição ', async () => {
+    const reqSell = await request(app)
+      .post('/asset/sell')
+      .send({
+        idAsset: allAssets[1].idAsset,
+      })
+      .set('Authorization', `Bearer ${tokenUser}`);
+
+    expect(reqSell.status).toBe(StatusCodes.BAD_REQUEST);
+    expect(reqSell.body.message).toBe('"quantity" is required');
+  });
+
+  test('Verifica se é possível fazer uma venda de ativos sem passar o token do usuário na requisição', async () => {
+    const reqSell = await request(app).post('/asset/sell').send({
+      idAsset: allAssets[1].idAsset,
+      quantity: 1,
+    });
+
+    expect(reqSell.status).toBe(StatusCodes.UNAUTHORIZED);
+    expect(reqSell.body.message).toBe('Token not found');
+  });
+
+  test('Verifica se é possível vender ativos e se retorna os dados da venda', async () => {
+    await request(app)
+      .post('/account/deposit')
+      .send({
+        value: 10000,
+      })
+      .set('Authorization', `Bearer ${tokenUser}`);
+
+    await request(app)
+      .post('/asset/buy')
+      .send({
+        idAsset: allAssets[1].idAsset,
+        quantity: 10,
+      })
+      .set('Authorization', `Bearer ${tokenUser}`);
+
+    const reqSell = await request(app)
+      .post('/asset/sell')
+      .send({
+        idAsset: allAssets[1].idAsset,
+        quantity: 1,
+      })
+      .set('Authorization', `Bearer ${tokenUser}`);
+
+    expect(reqSell.status).toBe(StatusCodes.OK);
+    expect(reqSell.body).toHaveProperty('id');
+    expect(reqSell.body).toHaveProperty('idUser');
+    expect(reqSell.body).toHaveProperty('idAsset');
+    expect(reqSell.body).toHaveProperty('createdAt');
+    expect(reqSell.body).toHaveProperty('quantity');
+    expect(reqSell.body).toHaveProperty('purchasePrice');
+    expect(reqSell.body).toHaveProperty('type');
   });
 });
