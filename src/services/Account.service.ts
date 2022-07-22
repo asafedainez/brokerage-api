@@ -19,7 +19,7 @@ export default class AccountService {
       },
     });
 
-    if (!account) {
+    if (!account.length) {
       return {
         balance: 0.0,
       };
