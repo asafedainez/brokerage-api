@@ -134,6 +134,9 @@ Foi utilizado JWT nesse projeto para promover segurança de autenticação.
 
 Para todas as rotas que necessitam da identificação do usuário, foi utilizado o JWT para essa finalidade, não expondo a identificação do usuário em nenhum endereço de rota.
 
+### JOI
+Foi utilizado o JOI para validar os dados recebidos nas requisições. Essa biblioteca é muito simples e poderosa para essa finalidade, já automatizando vários tipos de verificações e respostas para quando a requisição é inválida.
+
 ### API REST
 Para Usuários e Ativos foram implementado rotas REST (GET, POST, PUT, DELETE) por ser uma boa prática.
 
