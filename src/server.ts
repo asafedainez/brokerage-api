@@ -3,8 +3,8 @@ import app from './app';
 
 dotenv.config();
 
-const { NODE_PORT } = process.env;
+const { PORT } = process.env;
 
-app.listen(NODE_PORT, () => {
-  console.log(`Server is running on port ${NODE_PORT}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });

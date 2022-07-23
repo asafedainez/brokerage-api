@@ -16,9 +16,9 @@ services:
     ports:
       - 3000:3000
     environment:
-      NODE_PORT: 3000
+      PORT: 3000
       DB_URL: postgres://postgres:password@db:5432/brokerage
-      JWT_SECRET: secretJWT
+      JWT_SECRET: c8fe4924c6dab50b726c513e16598757da6a595bd6b2f390c587030bb4951ff8
       SALT_ROUNDS: 10
   db:
     container_name: postgres_db
