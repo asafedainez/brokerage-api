@@ -4,26 +4,26 @@ jobs:
   eslint:
     runs-on: ubuntu-latest
     steps:
-          uses: actions/checkout@v2
+        uses: actions/checkout@v2
 
-        - name: Subir ambiente docker
-          run: docker-compose up -d
+      - name: Subir ambiente docker
+        run: docker-compose up -d
 
-        - name: Instalando yarn
-          run: npm install --global yarn
+      - name: Instalando yarn
+        run: npm install --global yarn
 
-        - name: Instalando as dependências
-          run: yarn i
+      - name: Instalando as dependências
+        run: yarn i
 
-        - name: Acessando container node
-          run: docker exec -it brokerage sh
+      - name: Acessando container node
+        run: docker exec -it brokerage sh
 
-        - name: Executando o lint para verificar se a erros
-          run: yarn lint
-  
+      - name: Executando o lint para verificar se a erros
+        run: yarn lint
+
   tests:
     runs-on: ubuntu-latest
     needs: [eslint]
     steps:
-        - name: Executando testes
-          run: yarn test
+      - name: Executando testes
+        run: yarn test
