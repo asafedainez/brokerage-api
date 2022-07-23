@@ -1,7 +1,7 @@
 on: [push, pull_request]
 
 jobs:
-  eslint:
+  ESlint-Verification:
     runs-on: ubuntu-latest
     steps:
         uses: actions/checkout@v2
@@ -21,7 +21,7 @@ jobs:
       - name: Executando o lint para verificar se a erros
         run: yarn lint
 
-  tests:
+  Tests-Verification:
     runs-on: ubuntu-latest
     needs: [eslint]
     steps:
