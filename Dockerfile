@@ -6,6 +6,8 @@ COPY package.json .
 
 RUN yarn
 
+RUN yarn generate
+
 COPY . .
 
 CMD ["yarn", "start"]
