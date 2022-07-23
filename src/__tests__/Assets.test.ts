@@ -40,6 +40,25 @@ describe('Verifica métodos GET de ativos', () => {
   });
 });
 
+describe('Verifica lista de ativos na carteira do cliente', () => {
+  test('Verifica se retorna uma array vazio caso não tenha nenhum ativo', async () => {
+    const reqToken = await request(app).post('/login').send({
+      cpf: '12345678902',
+      password: '12345678',
+    });
+
+    const tokenUser = reqToken.body.token;
+
+    const reqAssets = await request(app)
+      .get('/user/assets')
+      .set('Authorization', `Bearer ${tokenUser}`);
+
+    expect(reqAssets.status).toBe(StatusCodes.OK);
+    expect(reqAssets.body).toBeInstanceOf(Array);
+    expect(reqAssets.body.length).toBe(0);
+  });
+});
+
 describe('Verifica compra de ativos', () => {
   let tokenUser: string;
   let allAssets: IAsset[];
@@ -296,5 +315,32 @@ describe('Verifica venda de ativos', () => {
     expect(reqSell.body).toHaveProperty('quantity');
     expect(reqSell.body).toHaveProperty('purchasePrice');
     expect(reqSell.body).toHaveProperty('type');
+  });
+});
+
+describe('Verifica lista de ativos na carteira do cliente', () => {
+  test('Verifica se retorna todos os ativos que contém quantidade', async () => {
+    const reqToken = await request(app).post('/login').send({
+      cpf: '12345678902',
+      password: '12345678',
+    });
+
+    const tokenUser = reqToken.body.token;
+
+    const reqAssets = await request(app)
+      .get('/user/assets')
+      .set('Authorization', `Bearer ${tokenUser}`);
+
+    expect(reqAssets.status).toBe(StatusCodes.OK);
+    expect(reqAssets.body).toBeInstanceOf(Array);
+    expect(reqAssets.body.length).toBe(2);
+    expect(reqAssets.body[0]).toHaveProperty('idAsset');
+    expect(reqAssets.body[0]).toHaveProperty('assetName');
+    expect(reqAssets.body[0]).toHaveProperty('value');
+    expect(reqAssets.body[0]).toHaveProperty('quantity');
+    expect(reqAssets.body[0].assetName).toBe('PETZ3');
+    expect(reqAssets.body[0].quantity).toBe(1);
+    expect(reqAssets.body[1].assetName).toBe('ABEV3');
+    expect(reqAssets.body[1].quantity).toBe(19);
   });
 });
