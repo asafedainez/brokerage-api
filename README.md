@@ -170,3 +170,14 @@ Foi utilizado o Jest e o Supertest para testar o projeto. Inicialmente a ideia e
 Por não ter ideia de como testar os métodos do prisma e nem os métodos POO, fiz testes de integração.
 
 Para poder fazer os testes de integração foi necessário criar um banco de dados só para testes.
+
+### Deploy
+O deploy foi feito no Heroku. Essa plataforma foi escolhida por ter um serviço gratuito e por ter um banco de dados gratuito. 
+
+Link para Deploy: [BROKERAGEAPI](https://brokerageapi.herokuapp.com/)
+
+### CI - Continuous Integration
+Foi utilizado github actions para fazer CI e deploy no projeto. 
+
+O CI deste projeto consiste em fazer a verificação do código com ESLint e depois executa os testes de integração.
+Se todo o fluxo de trabalho for correto, o deploy é feito.
