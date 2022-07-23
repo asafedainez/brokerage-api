@@ -24,5 +24,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: [eslint]
     steps:
+      - uses: actions/checkout@v3
+
+      - name: Instalando as dependências
+        run: yarn
+
+      - name: Subir ambiente docker
+        run: docker-compose up -d
+
       - name: Executando testes
         run: docker exec brokerage yarn test
