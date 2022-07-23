@@ -1,8 +1,8 @@
 import { PrismaClient } from '@prisma/client';
+import { StatusCodes } from 'http-status-codes';
 import prismaDatabase from '../database';
 import IAccountTransaction from '../interfaces/AccountTransaction';
 import HttpException from '../utils/HttpException';
-import { StatusCodes } from 'http-status-codes';
 import IAccount from '../interfaces/Account';
 
 export default class AccountService {
@@ -19,7 +19,7 @@ export default class AccountService {
       },
     });
 
-    if (!account) {
+    if (!account.length) {
       return {
         balance: 0.0,
       };

@@ -27,6 +27,8 @@ Todas as movimentações são salvas no banco de dados, sendo elas de ativos (co
 - PostgreSQL
 - Ts Node
 - Swagger
+- Jest
+- Supertest
 
 ## Executando o projeto
 ### Pré-requisitos
@@ -55,11 +57,20 @@ yarn db:seed
 yarn start
 
 ```
-### Executando testes
+### Executando testes de integração
+Nesse projeto eu desenvolvi testes de integração com Jest.
+O teste utiliza o banco de dados para testar a aplicação.
+Para rodar os testes, basta executar o comando abaixo:
+
 ```
 yarn test
 ```
 
+**Caso algum testes falhe** é necessário executar o comando abaixo para reiniciar o banco de dados do teste para poder rodar os testes novamente.
+
+```
+yarn posttest
+```
 ## Swagger
 
 O link para o Swagger é:
@@ -154,4 +165,8 @@ Para Usuários e Ativos foram implementado rotas REST (GET, POST, PUT, DELETE) p
 Foi utilizado o Swagger para documentar as funcionalidades e rotas do projeto.
 
 ### Testes
-Foi utilizado o Jest para testar o projeto. Por falta de tempo não consegui fazer todos os testes, mas foquei em deixar uma parte muito bem testada para demonstrar zelo pelo código.
+Foi utilizado o Jest e o Supertest para testar o projeto. Inicialmente a ideia era de fazer testes unitários nas camadas, ao menos as obrigatórias, mas por eu ter feito o projeto em POO eu não consegui fazer testes unitários. 
+
+Por não ter ideia de como testar os métodos do prisma e nem os métodos POO, fiz testes de integração.
+
+Para poder fazer os testes de integração foi necessário criar um banco de dados só para testes.

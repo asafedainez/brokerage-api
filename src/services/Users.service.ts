@@ -1,11 +1,11 @@
+import { PrismaClient } from '@prisma/client';
+import { StatusCodes } from 'http-status-codes';
 import IApiRestService from '../interfaces/ApiRestService';
 import IUser from '../interfaces/User';
-import { PrismaClient } from '@prisma/client';
 import Bcrypt from '../utils/Bcrypt';
 import IUserDatabase from '../interfaces/UserDatabase';
 import Auth from '../utils/Auth';
 import HttpException from '../utils/HttpException';
-import { StatusCodes } from 'http-status-codes';
 import IAsset from '../interfaces/Asset';
 import prismaDatabase from '../database';
 import AccountService from './Account.service';

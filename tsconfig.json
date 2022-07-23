@@ -2,7 +2,7 @@
   "compilerOptions": {
     "sourceMap": true,
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDirs": ["./src", "./jest.config.ts"],
     "strict": true,
     "lib": [
       "esnext"

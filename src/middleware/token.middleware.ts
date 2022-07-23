@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import HttpException from '../utils/HttpException';
 import { StatusCodes } from 'http-status-codes';
+import HttpException from '../utils/HttpException';
 import Auth from '../utils/Auth';
 
 export default function tokenMiddleware(

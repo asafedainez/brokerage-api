@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import { Request, Response, NextFunction } from 'express';
-import HttpException from '../utils/HttpException';
 import { StatusCodes } from 'http-status-codes';
+import HttpException from '../utils/HttpException';
 
 const opAssetSchema = Joi.object().keys({
   idAsset: Joi.string().required(),
