@@ -1,7 +1,7 @@
 import request from 'supertest';
+import { StatusCodes } from 'http-status-codes';
 import app from '../app';
 import IAsset from '../interfaces/Asset';
-import { StatusCodes } from 'http-status-codes';
 
 describe('Verifica métodos GET de ativos', () => {
   test('Verifica se é possível pegar todos os ativos com a quantidade vendida de cada ativo', async () => {

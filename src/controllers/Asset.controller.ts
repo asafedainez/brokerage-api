@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import AssetsService from '../services/Assets.service';
 import { StatusCodes } from 'http-status-codes';
+import AssetsService from '../services/Assets.service';
 import HttpException from '../utils/HttpException';
 import Auth from '../utils/Auth';
 
@@ -14,7 +14,7 @@ export default class AssetController {
   }
 
   async getById(req: Request, res: Response): Promise<Response> {
-    const id = req.params.id;
+    const { id } = req.params;
 
     const asset = await AssetController.assetService.getById(id);
 
@@ -36,7 +36,7 @@ export default class AssetController {
   }
 
   async update(req: Request, res: Response): Promise<Response> {
-    const id = req.params.id;
+    const { id } = req.params;
     const { assetName, value, quantity } = req.body;
 
     const assetUpdated = await AssetController.assetService.update(id, {

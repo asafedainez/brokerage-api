@@ -1,9 +1,9 @@
+import { PrismaClient } from '@prisma/client';
+import { StatusCodes } from 'http-status-codes';
 import IApiRestService from '../interfaces/ApiRestService';
 import IAsset from '../interfaces/Asset';
-import { PrismaClient } from '@prisma/client';
 import prismaDatabase from '../database';
 import HttpException from '../utils/HttpException';
-import { StatusCodes } from 'http-status-codes';
 import UserService from './Users.service';
 import IOperation from '../interfaces/Operations';
 import AccountService from './Account.service';
@@ -23,7 +23,7 @@ export default class AssetsService implements IApiRestService<IAsset> {
     const allAssetsWithSoldQuantity = assets.map((asset) => {
       const quantitySold = assetsSold.reduce((total, assetCurr) => {
         if (assetCurr.idAsset === asset.id) {
-          assetCurr.type === 'BUY'
+          return assetCurr.type === 'BUY'
             ? total + assetCurr.quantity
             : total - assetCurr.quantity;
         }
@@ -89,7 +89,7 @@ export default class AssetsService implements IApiRestService<IAsset> {
     };
   }
 
-  async remove(id: string): Promise<boolean> {
+  async remove(_id: string): Promise<boolean> {
     throw new Error('Method not implemented.');
   }
 

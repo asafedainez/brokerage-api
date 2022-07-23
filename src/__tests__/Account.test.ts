@@ -1,6 +1,6 @@
 import request from 'supertest';
-import app from '../app';
 import { StatusCodes } from 'http-status-codes';
+import app from '../app';
 
 describe('Verificando conta', () => {
   let userToken: string;

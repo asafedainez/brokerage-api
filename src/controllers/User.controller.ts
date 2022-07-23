@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
 import UserService from '../services/Users.service';
 import IApiRestController from '../interfaces/ApiRestController';
-import { StatusCodes } from 'http-status-codes';
 import Auth from '../utils/Auth';
 import HttpException from '../utils/HttpException';
 
