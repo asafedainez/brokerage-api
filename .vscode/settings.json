@@ -14,7 +14,8 @@
     "tests",
     "docker",
     "asset",
-    "account"
+    "account",
+    "swagger"
   ],
     "conventionalCommits.gitmoji": false,
     "conventionalCommits.promptFooter": false
