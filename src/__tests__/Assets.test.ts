@@ -5,7 +5,7 @@ import IAsset from '../interfaces/Asset';
 
 describe('Verifica métodos GET de ativos', () => {
   test('Verifica se é possível pegar todos os ativos com a quantidade vendida de cada ativo', async () => {
-    const reqAllAssets = await request(app).get('/asset');
+    const reqAllAssets = await request(app).get('/assets');
 
     expect(reqAllAssets.status).toBe(StatusCodes.OK);
     expect(reqAllAssets.body).toBeInstanceOf(Array);
@@ -18,7 +18,7 @@ describe('Verifica métodos GET de ativos', () => {
   });
 
   test('Verifica se é possível pegar um ativo pelo id', async () => {
-    const reqAllAssets = await request(app).get('/asset');
+    const reqAllAssets = await request(app).get('/assets');
 
     const reqAssetById = await request(app).get(
       `/asset/${reqAllAssets.body[0].idAsset}`
@@ -69,7 +69,7 @@ describe('Verifica compra de ativos', () => {
       password: '12345678',
     });
 
-    const reqAllAssets = await request(app).get('/asset');
+    const reqAllAssets = await request(app).get('/assets');
 
     allAssets = reqAllAssets.body;
 
@@ -188,7 +188,7 @@ describe('Verifica venda de ativos', () => {
       password: '12345678',
     });
 
-    const reqAllAssets = await request(app).get('/asset');
+    const reqAllAssets = await request(app).get('/assets');
 
     allAssets = reqAllAssets.body;
 
