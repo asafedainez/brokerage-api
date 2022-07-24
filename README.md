@@ -1,4 +1,3 @@
-
 # Brokerage API
 
 Esse projeto é uma api de corretagem onde se pode comprar e vender ativos.
@@ -6,6 +5,15 @@ A corretora contém uma lista de ativos com o preço e a quantidade disponível.
 Os usuários tem um cadastro e uma conta onde se pode depositar e sacar seus fundos.
 Todas as movimentações são salvas no banco de dados, sendo elas de ativos (compra e venda) ou na conta de usuários (compra e venda de ativos, depósitos e saques).
 
+## Descrição
+- Faz login de usuário com cpf e senha;
+- Cadastra, atualiza, lista e deleta usuário;
+- Cadastra, atualiza e lista ativos;
+- É possível recuperar os ativos do usuário;
+- É possível comprar e vender ativos;
+- É possível depositar e sacar fundos;
+- É possível recuperar o saldo da conta;
+- É possível recuperar ativos por id;
 
 
 ## Tecnologias utilizadas
@@ -29,6 +37,7 @@ Todas as movimentações são salvas no banco de dados, sendo elas de ativos (co
 - Swagger
 - Jest
 - Supertest
+- Cors
 
 ## Executando o projeto
 ### Pré-requisitos
@@ -47,8 +56,11 @@ docker-compose up -d
 ```
 docker exec -it brokerage sh
 
+# para gerar todos os typos do DB para o TS
+yarn generate
+
 # para criar o banco:
-yarn db:push  
+yarn db:push
 
 # para popular o banco:
 yarn db:seed
@@ -124,6 +136,17 @@ A princípio a modelagem contaria com uma tabela chamada `Wallet` que serviria p
 Foi tomado a decisão de remover essa tabela `Wallet` pois ela teria uma espécie de redundância de dados. Então foi decidido arcar com o processamento para percorrer a tabela `Operations` para ter os dados necessários ao invés de ter todos esses dados na tabela `Wallet`.
 
 
+## Ajustes e melhorias
+
+- Implementar rota para deletar ativo;
+- Implementar rota para ativar usuário;
+- Implementar rota para retornar histórico de movimentações da conta do usuário;
+- Implementar rota para retornar histórico de movimentações de compra e venda de ativos;
+- Implementar usuários admins para gerenciar o sistema e ativos;
+- Implementar verificações se o usuário está ativo para todos as rotas;
+- Fazer testes de todos os cenários e rotas;
+- Fazer documentação do Swagger para todas as rotas.
+
 ## Tomadas de decisões
 ### Banco de dados
 Foi escolhido o PostgreSQL por ser um serviço gratuito no Heroku ao fazer deploy.
@@ -162,7 +185,7 @@ Foi utilizado o JOI para validar os dados recebidos nas requisições. Essa bibl
 Para Usuários e Ativos foram implementado rotas REST (GET, POST, PUT, DELETE) por ser uma boa prática.
 
 ### Swagger
-Foi utilizado o Swagger para documentar as funcionalidades obrigatórias do desafio. Por falta de tempo não foi possível implementar a documentação do Swagger para todas as rotas do projeto.
+Foi utilizado o Swagger para documentar as funcionalidades e rotas do projeto.
 
 ### Testes
 Foi utilizado o Jest e o Supertest para testar o projeto. Inicialmente a ideia era de fazer testes unitários nas camadas, ao menos as obrigatórias, mas por eu ter feito o projeto em POO eu não consegui fazer testes unitários. 
@@ -180,4 +203,8 @@ Link para Deploy: [BROKERAGE API](https://brokerageapi.herokuapp.com/)
 Foi utilizado github actions para fazer CI e deploy no projeto. 
 
 O CI deste projeto consiste em fazer a verificação do código com ESLint e depois executa os testes de integração.
-Se todo o fluxo de trabalho for correto, o deploy é feito.
+
+### CD - Continuous Deploy
+Foi utilizado a conexão do Heroku <-> GitHub para criar um gatilho de deploy automático.
+
+Toda vez que o CI for concluído com sucesso o deploy é executado.
