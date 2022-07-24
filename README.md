@@ -162,7 +162,7 @@ Foi utilizado o JOI para validar os dados recebidos nas requisições. Essa bibl
 Para Usuários e Ativos foram implementado rotas REST (GET, POST, PUT, DELETE) por ser uma boa prática.
 
 ### Swagger
-Foi utilizado o Swagger para documentar as funcionalidades e rotas do projeto.
+Foi utilizado o Swagger para documentar as funcionalidades obrigatórias do desafio. Por falta de tempo não foi possível implementar a documentação do Swagger para todas as rotas do projeto.
 
 ### Testes
 Foi utilizado o Jest e o Supertest para testar o projeto. Inicialmente a ideia era de fazer testes unitários nas camadas, ao menos as obrigatórias, mas por eu ter feito o projeto em POO eu não consegui fazer testes unitários. 
@@ -174,7 +174,7 @@ Para poder fazer os testes de integração foi necessário criar um banco de dad
 ### Deploy
 O deploy foi feito no Heroku. Essa plataforma foi escolhida por ter um serviço gratuito e por ter um banco de dados gratuito. 
 
-Link para Deploy: [BROKERAGEAPI](https://brokerageapi.herokuapp.com/)
+Link para Deploy: [BROKERAGE API](https://brokerageapi.herokuapp.com/)
 
 ### CI - Continuous Integration
 Foi utilizado github actions para fazer CI e deploy no projeto. 

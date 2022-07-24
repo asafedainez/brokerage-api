@@ -22,7 +22,7 @@ assetRouter.post(
 );
 
 assetRouter.get('/asset/:id', assetController.getById);
-assetRouter.get('/asset', assetController.getAll);
+assetRouter.get('/assets', assetController.getAll);
 assetRouter.post('/asset', assetMiddleware, assetController.create);
 assetRouter.put('/asset/:id', assetMiddleware, assetController.update);
 
